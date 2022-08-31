@@ -20,6 +20,9 @@ public class TestController {
 	@Value("${driverPath}")
 	private String driverPath;
 
+	@Value("${gridUrl}")
+	private String gridUrl;
+
 	@GetMapping(value = "/test")
 	public boolean testController() {
 		// System.setProperty("webdriver.chrome.driver", driverPath);
@@ -57,7 +60,7 @@ public class TestController {
 			// // Other type of metadata can be seen in the Grid UI by clicking on the
 			// // session info or via GraphQL
 			// chromeOptions.setCapability("se:sampleMetadata", "Sample metadata value");
-			WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444"), chromeOptions);
+			WebDriver driver = new RemoteWebDriver(new URL(gridUrl), chromeOptions);
 			driver.get("http://www.google.com");
 			driver.quit();
 			// https://dev.to/automationbro/docker-selenium-grid-setup-1lg4
