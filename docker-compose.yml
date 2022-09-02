@@ -1,0 +1,37 @@
+version: "3"
+networks:
+  automizer-network:
+    driver: "bridge"
+    name: "automizer-network"
+
+services:
+  automizer:
+    build:
+      context: "."
+      dockerfile: "dockerfile"
+    restart: always
+    environment:
+      gridUrl: http://host.docker.internal:4444
+    ports:
+      - "8080:8080"
+    networks:
+      - automizer-network
+    privileged: true
+
+  selenium-grid:
+    build:
+      context: "."
+      dockerfile: "selenium-dockerfile"
+      # shm_size: '2gb'
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+    links:
+      - "automizer"
+    networks:
+      - automizer-network
+    environment:
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1080
+      - SCREEN_DEPTH=24
+    privileged: true

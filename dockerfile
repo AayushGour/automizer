@@ -1,18 +1,16 @@
-FROM selenium/standalone-chrome
-RUN sudo mkdir /opt/app
-COPY target/automizer-0.0.1-SNAPSHOT.jar /opt/app
-# RUN sudo apt-get update
-# RUN sudo apt-get -y install x11vnc xvfb fluxbox wget wmctrl
-# RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-# # RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
-# RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/google.list
-# RUN xvfb :99 -screen 0 1920x1080x24 &
-# RUN export DISPLAY=:1
-# COPY bootstrap.sh /
-# CMD [ "./bootstrap.sh" ]
-CMD ["java", "-jar", "/opt/app/automizer-0.0.1-SNAPSHOT.jar"]
+# FROM openjdk:11
+# RUN mkdir /opt/app
+# COPY target/automizer-0.0.1-SNAPSHOT.jar /opt/app
+# CMD ["java", "-jar", "/opt/app/automizer-0.0.1-SNAPSHOT.jar"]
 
-
+FROM maven:3.8.5-openjdk-11 as MAVEN_BUILD
+WORKDIR /app
+COPY ./ ./
+RUN mvn clean package -DskipTests
+FROM openjdk:11
+WORKDIR /spring
+COPY --from=MAVEN_BUILD /app/target/*.jar ./app.jar
+CMD ["java", "-jar", "app.jar"]
 
 
 # docker stop automizer-be
@@ -28,3 +26,12 @@ CMD ["java", "-jar", "/opt/app/automizer-0.0.1-SNAPSHOT.jar"]
 # use host networking --network host
 # get docker volume and get/set configuration
 # use docker deamon -> port forward on TCP -> develop docker api
+
+# FROM maven:3.8.5-openjdk-11 as MAVEN_BUILD
+# WORKDIR /app
+# COPY ./ ./
+# RUN mvn clean package -DskipTests
+# FROM openjdk:11
+# WORKDIR /spring
+# COPY --from=MAVEN_BUILD /app/target/*.jar ./app.jar
+# CMD ["java", "-jar", "app.jar"]

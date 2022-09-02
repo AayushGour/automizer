@@ -1,0 +1,2 @@
+logging in docker compose using syslog
+https://docs.docker.com/compose/compose-file/compose-file-v3/#logging

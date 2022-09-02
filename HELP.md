@@ -9,3 +9,48 @@ access 7900 port for display
 
 put all html in resource/template folder
 put all js and css in resource/static folder
+
+dynamically spawn docker container for selenium grid
+dynamically provide IP of selenium grid
+dynamically create, delete nodes within the selenium grid
+
+Docker compose example
+version: "3"
+services:
+  frontend:
+    build: ./project/frontend
+    image: frontend:latest
+    restart: unless-stopped
+    # expose:
+    #   - "3000"
+    ports:
+      - "3000:3000"
+  backend:
+    build: ./project/backend/
+    image: backend:latest
+    restart: always
+    environment:
+      server.port: 8001
+      spring.datasource.url: jdbc:postgresql://postgres/stage
+      spring.datasource.username: postgres
+      spring.datasource.password: postgres
+      spring.jpa.database: POSTGRESQL
+    expose:
+      - "8001"
+    depends_on:
+      - postgres
+    links:
+      - postgres # used for making postgres reachable by backend
+    # deploy:
+    #   mode: replicated
+    #   replicas: 3
+    # docker-compose --compatibility up
+  postgres:
+    image: postgres:alpine3.16
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: stage
+    expose:
+      - "5432"
