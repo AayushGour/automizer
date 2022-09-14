@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class TestController {
-	@Value("${driverPath}")
-	private String driverPath;
-
 	@Value("${gridUrl}")
 	private String gridUrl;
 
@@ -59,7 +56,7 @@ public class TestController {
 			// chromeOptions.setCapability("se:sampleMetadata", "Sample metadata value");
 			WebDriver driver = new RemoteWebDriver(new URL(gridUrl), chromeOptions);
 			driver.get("http://www.google.com");
-			driver.quit();
+			// driver.quit();
 			// https://dev.to/automationbro/docker-selenium-grid-setup-1lg4
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
