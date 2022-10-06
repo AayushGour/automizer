@@ -1,0 +1,9 @@
+docker
+phase gate validation
+base architecture for react
+webpack - bundler
+babel
+next js
+coding standards 
+component organization
+token authentication

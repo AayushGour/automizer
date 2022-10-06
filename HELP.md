@@ -14,6 +14,11 @@ dynamically spawn docker container for selenium grid
 dynamically provide IP of selenium grid
 dynamically create, delete nodes within the selenium grid
 
+
+port forward docker unique socket to tcp
+docker api v2 endpoint ,make call on tcp created above
+
+
 Docker compose example
 version: "3"
 services:
