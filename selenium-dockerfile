@@ -1,3 +1,15 @@
 FROM selenium/standalone-chrome
 RUN sudo apt-get update
-RUN curl -o selenium-grid.jar https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.4.0/selenium-server-4.4.0.jar
+EXPOSE 4444
+EXPOSE 7900
+ARG SCREEN_WIDTH
+ARG SCREEN_HEIGHT
+ARG SCREEN_DEPTH
+
+ENV SCREEN_WIDTH=1920
+ENV SCREEN_HEIGHT=1080
+ENV SCREEN_DEPTH=24
+RUN sudo curl -o selenium-grid.jar https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.4.0/selenium-server-4.4.0.jar
+
+
+# password for no-vnc : secret
